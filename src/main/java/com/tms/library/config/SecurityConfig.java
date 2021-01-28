@@ -1,5 +1,6 @@
 package com.tms.library.config;
 
+import com.tms.library.security.MyCustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private AuthenticationProvider authenticationProvider;
+    private MyCustomUserDetailsService detailsService;
 
     @Bean
     public PasswordEncoder passwordEncoder(){
@@ -25,10 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("admin").password("{noop}admin").authorities("ROLE_ADMIN");
-        auth.inMemoryAuthentication().withUser("user").password("{noop}user").authorities("ROLE_USER");
-
-        auth.authenticationProvider(authenticationProvider);
+        auth.userDetailsService(detailsService);
     }
 
     @Override

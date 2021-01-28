@@ -27,7 +27,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User findByUsername(String username) {
         List<User> users = jdbcTemplate.query(connection -> {
-            PreparedStatement ps = connection.prepareStatement("SELECT id, username, password, first_name, last_name, active FROM users WHERE username = ?");
+            PreparedStatement ps = connection.prepareStatement("SELECT id, username, password, first_name, last_name, active, created, updated FROM users WHERE username = ?");
             ps.setString(1, username);
             return ps;
         }, new UserRowMapper());
@@ -52,6 +52,8 @@ public class UserDaoImpl implements UserDao {
                     .firstName(rs.getString("first_name"))
                     .lastName(rs.getString("last_name"))
                     .active(rs.getBoolean("active"))
+                    .created(rs.getDate("created"))
+                    .updated(rs.getDate("updated"))
                     .build();
         }
     }

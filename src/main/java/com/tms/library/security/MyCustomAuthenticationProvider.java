@@ -29,7 +29,7 @@ public class MyCustomAuthenticationProvider implements AuthenticationProvider {
         String username = auth.getName();
         String password = auth.getCredentials().toString();
 
-        if(StringUtils.isEmpty(username) || StringUtils.isEmpty(password)){
+        if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
             throw new BadCredentialsException("Username and password should be not empty");
         }
 
@@ -39,8 +39,7 @@ public class MyCustomAuthenticationProvider implements AuthenticationProvider {
             throw new BadCredentialsException("Password invalid");
         }
 
-        Authentication authentication = new UsernamePasswordAuthenticationToken(found, null, Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER")));
-        return authentication;
+        return new UsernamePasswordAuthenticationToken(found, null, Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER")));
     }
 
     @Override
